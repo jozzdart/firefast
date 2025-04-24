@@ -1,3 +1,14 @@
+## 0.0.19
+
+- Added type adapters for Firebase Realtime Database:
+  - Created `RealtimeAdapters` central registry extending `FireAdapterMap`:
+    - Singleton pattern for global type resolution
+    - Automatic adapter registration system
+  - Implemented list handling with `RealtimeListAdapters<T>`:
+    - Generic implementation for all types of lists
+    - Type-safe list conversion for Realtime Database
+    - Built-in support for common types: bool, int, double, String, Uint8List, DateTime
+
 ## 0.0.18
 
 - Introduced the base testing framework for `firefast_firestore`:
