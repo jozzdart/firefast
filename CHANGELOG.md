@@ -1,3 +1,12 @@
+## 0.0.13
+
+- Comprehensive testing of adapter system:
+  - Added 80 unit tests covering all adapter implementations
+  - Complete test coverage for type conversion edge cases
+  - Validation tests for all primitive type adapters (bool, int, double, String)
+  - Verification tests for complex type adapters (DateTime, Uint8List, Map, List)
+  - Integration tests for adapter registry and automatic type resolution
+
 ## 0.0.12
 
 - Started rewrite of core library
