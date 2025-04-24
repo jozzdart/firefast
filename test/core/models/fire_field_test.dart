@@ -1,125 +1,135 @@
-import 'package:firefast/firefast_core.dart';
 import 'package:test/test.dart';
+import 'package:firefast/firefast_core.dart';
+
+import '../adapters/fire_adapters_test.dart';
+
+class TestFireField<T> extends FireFieldBase<T> {
+  @override
+  final FireAdapter<T> adapter = TestFireAdapterMap.instance.of<T>();
+
+  TestFireField(
+    super.name, {
+    required super.receiveData,
+    required super.onFetched,
+    super.isValid,
+    super.shouldCancelAll,
+  });
+}
 
 void main() {
   group('FireField', () {
-    test('constructor initializes properties correctly', () {
-      const fieldName = 'testField';
-      toFireFn() async => 'test value';
-      fromFireFn(dynamic value) => value as String;
+    late TestFireAdapterMap adapterMap;
 
-      final field = FireField<String>(
-        name: fieldName,
-        toFire: toFireFn,
-        fromFire: fromFireFn,
-      );
-
-      expect(field.name, equals(fieldName));
-      expect(field.toFire, equals(toFireFn));
-      expect(field.fromFire, equals(fromFireFn));
+    setUp(() {
+      // Ensure adapter map is initialized once
+      adapterMap = TestFireAdapterMap.instance;
+      adapterMap.registerAll();
     });
 
-    test('toFire delegate returns expected value', () async {
-      final expectedValue = 42;
-      final field = FireField<int>(
-        name: 'counter',
-        toFire: () async => expectedValue,
-        fromFire: (dynamic value) => value as int,
+    test('should initialize with all properties', () {
+      final stringAdapter = adapterMap.of<String>();
+      final field = TestFireField<String>(
+        'testField',
+        receiveData: () async => 'test-data',
+        onFetched: (_) async {},
+        isValid: (value) async => value != null,
+        shouldCancelAll: (value) async => value == 'cancel',
       );
 
-      final result = await field.toFire();
-      expect(result, equals(expectedValue));
+      expect(field.name, equals('testField'));
+      expect(field.adapter, equals(stringAdapter));
     });
 
-    test('fromFire delegate converts value correctly', () {
-      final field = FireField<String>(
-        name: 'name',
-        toFire: () async => 'John',
-        fromFire: (dynamic value) => value.toString().toUpperCase(),
+    test('should properly inherit FirePort methods', () async {
+      String receivedValue = '';
+
+      final field = TestFireField<String>(
+        'testField',
+        receiveData: () async => 'test-data',
+        onFetched: (value) async {
+          receivedValue = value ?? '';
+        },
       );
 
-      final result = field.fromFire('john');
-      expect(result, equals('JOHN'));
+      expect(await field.receiveData(), equals('test-data'));
+
+      await field.onFetched('received-data');
+      expect(receivedValue, equals('received-data'));
     });
 
-    test('fromFire handles expected input types', () {
-      // String field
-      final stringField = FireField<String>(
-        name: 'text',
-        toFire: () async => 'value',
-        fromFire: (dynamic value) => value as String,
+    test('works with various data types using their corresponding adapters',
+        () async {
+      // Test with string adapter
+      final stringField = TestFireField<String>(
+        'stringField',
+        receiveData: () async => 'string-value',
+        onFetched: (_) async {},
       );
-      expect(stringField.fromFire('test string'), equals('test string'));
+      expect(stringField.adapter, isA<StringFireAdapter>());
+      expect(await stringField.receiveData(), equals('string-value'));
 
-      // Integer field
-      final intField = FireField<int>(
-        name: 'count',
-        toFire: () async => 1,
-        fromFire: (dynamic value) => value as int,
+      // Test with int adapter
+      final intField = TestFireField<int>(
+        'intField',
+        receiveData: () async => 42,
+        onFetched: (_) async {},
       );
-      expect(intField.fromFire(123), equals(123));
+      expect(intField.adapter, isA<IntFireAdapter>());
+      expect(await intField.receiveData(), equals(42));
 
-      // Boolean field
-      final boolField = FireField<bool>(
-        name: 'isActive',
-        toFire: () async => true,
-        fromFire: (dynamic value) => value as bool,
+      // Test with bool adapter
+      final boolField = TestFireField<bool>(
+        'boolField',
+        receiveData: () async => true,
+        onFetched: (_) async {},
       );
-      expect(boolField.fromFire(true), isTrue);
+      expect(boolField.adapter, isA<BoolFireAdapter>());
+      expect(await boolField.receiveData(), equals(true));
 
-      // Map field
-      final mapField = FireField<Map<String, dynamic>>(
-        name: 'metadata',
-        toFire: () async => {'key': 'value'},
-        fromFire: (dynamic value) => value as Map<String, dynamic>,
+      // Test with datetime adapter
+      final datetimeField = TestFireField<DateTime>(
+        'datetimeField',
+        receiveData: () async => DateTime(2023, 1, 1),
+        onFetched: (_) async {},
       );
-
-      final testMap = {'test': 123, 'other': true};
-      expect(mapField.fromFire(testMap), equals(testMap));
-
-      // List field
-      final listField = FireField<List<String>>(
-        name: 'tags',
-        toFire: () async => ['a', 'b'],
-        fromFire: (dynamic value) => (value as List).cast<String>(),
-      );
-
-      final testList = ['tag1', 'tag2', 'tag3'];
-      expect(listField.fromFire(testList), equals(testList));
+      expect(datetimeField.adapter, isA<DateTimeFireAdapter>());
+      expect(await datetimeField.receiveData(), equals(DateTime(2023, 1, 1)));
     });
 
-    test('fromFire throws when receiving incompatible types', () {
-      final intField = FireField<int>(
-        name: 'count',
-        toFire: () async => 1,
-        fromFire: (dynamic value) => value as int,
+    test('adapter should be able to convert values to and from Fire format',
+        () async {
+      final field = TestFireField<String>(
+        'testField',
+        receiveData: () async => 'test-data',
+        onFetched: (_) async {},
       );
 
-      expect(() => intField.fromFire('not an int'), throwsA(isA<TypeError>()));
+      final fieldValue = await field.receiveData();
+      expect(fieldValue, equals('test-data'));
+
+      final fireValue = await field.adapter.toFire(fieldValue);
+      expect(fireValue, equals('test-data'));
+
+      final reconstructedValue = await field.adapter.fromFire(fireValue);
+      expect(reconstructedValue, equals('test-data'));
     });
 
-    test('handles null values correctly', () {
-      final nullableField = FireField<String?>(
-        name: 'nullable',
-        toFire: () async => null,
-        fromFire: (dynamic value) => value as String?,
+    test('list field works properly with list adapter', () async {
+      final listField = TestFireField<List<String?>>(
+        'listField',
+        receiveData: () async => ['a', 'b', null, 'c'],
+        onFetched: (_) async {},
       );
 
-      expect(nullableField.fromFire(null), isNull);
-    });
+      final fieldValue = await listField.receiveData();
+      expect(fieldValue, equals(['a', 'b', null, 'c']));
 
-    test('complex conversion in fromFire works correctly', () {
-      final dateField = FireField<DateTime>(
-        name: 'timestamp',
-        toFire: () async => DateTime.now().millisecondsSinceEpoch,
-        fromFire: (dynamic value) =>
-            DateTime.fromMillisecondsSinceEpoch(value as int),
-      );
+      final fireValue = await listField.adapter.toFire(fieldValue);
+      expect(fireValue, isA<List>());
+      expect(fireValue, equals(['a', 'b', null, 'c']));
 
-      final timestamp = 1625097600000; // 2021-07-01T00:00:00.000Z
-      final expectedDate = DateTime.fromMillisecondsSinceEpoch(timestamp);
-
-      expect(dateField.fromFire(timestamp), equals(expectedDate));
+      final reconstructedValue = await listField.adapter.fromFire(fireValue);
+      expect(reconstructedValue, equals(['a', 'b', null, 'c']));
     });
   });
 }

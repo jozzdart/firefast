@@ -1,3 +1,41 @@
+## 0.0.14
+
+### Core Models Rewrite
+
+- Continued rewrite of core library with focus on core/models:
+  - Renamed `FireField` to `FireFieldBase` - now by default is unusable unless using specific library (not core)
+  - Renamed `FireFieldSet` to `FireSet` - now a generic strongly typed map builder based on values
+  - Introduced `FirePort<T>` abstract class as the foundation for data transfer operations:
+    - Provides a consistent interface for bidirectional data flow with Firebase
+    - Includes validation and cancellation capabilities through functional callbacks
+  - Advanced field validation and processing:
+    - `isValid<T>` function allows conditional validation of field values before database operations
+    - `shouldCancelAll<T>` function enables cancellation of entire operations based on single field conditions
+    - Both validation functions are composable and can be chained together for complex validation logic
+  - Enhanced data flow mechanics:
+    - `ToFireDelegate<T>` handles outgoing data preparation before adapter conversion
+    - `FromFireDelegate<T>` processes incoming data after adapter conversion
+    - Complete control over data transformation at each step of the Firebase interaction
+  - Improved `FireSetBase<O>` abstract class with cleaner API for data conversion:
+    - Type-generic approach allows customization of output formats
+    - Simplified method signatures for toMap/fromMap operations
+  - Enhanced `FireSetOutput` with type-safe field access and better error handling:
+    - Type-safe getters prevent runtime type errors
+    - Detailed error messages when type conversion fails
+  - Added `FieldTypeMismatchException` for clearer error detection when type conversion fails
+  - Streamlined operation interfaces with `ReadNoParams`, `WriteNoParams`, `OverwriteNoParams`, and `DeleteNoParams`:
+    - Simplified API for common database operations
+    - Consistent interface patterns across different operation types
+
+### Core Models Testing
+
+- Added comprehensive test suite for core/models components:
+  - `FireFieldBase` tests for initialization, inheritance, adapter conversion and type compatibility
+  - `FireSet` tests for data conversion, validation, and error handling
+  - `FirePort` tests for delegate execution and validation functions
+  - `FireSetBase` tests for type-generic behavior and complex data structures
+  - 50+ test cases with full coverage of edge cases and data type variations
+
 ## 0.0.13
 
 - Comprehensive testing of adapter system:
