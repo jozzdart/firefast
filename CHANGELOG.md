@@ -1,3 +1,21 @@
+## 0.0.16
+
+- Started implementing the firefast_firestore library with new core tools:
+  - Comprehensive Firestore type adapter system:
+    - `FirestoreAdapters` - Central registry extending `FireAdapterMap` for Firestore-specific types
+    - Automatic registration system for all Firestore data types
+    - Specialized Firestore type converters:
+      - `TimestampFireAdapter` - Converts between Firestore Timestamp and Dart DateTime
+      - `GeoPointFireAdapter` - Handles Firestore GeoPoint objects
+      - `BlobFireAdapter` - Manages binary data with Uint8List and Firestore Blob
+      - `DocumentReferenceFireAdapter` - Supports Firestore document references
+    - Enhanced list handling with `FirestoreListAdapters<T>`:
+      - Generic implementation for any type of list
+      - Automatic type resolution for list elements
+      - Built-in support for common types: bool, int, double, String, Uint8List, DateTime
+    - Streamlined part-based architecture for better code organization
+    - Complete type-safety with proper generics throughout
+
 ## 0.0.15
 
 - Added comprehensive path-based data handling system in core/path:
