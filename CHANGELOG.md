@@ -1,3 +1,26 @@
+## 0.0.17
+
+- Completed implementation of the firefast_firestore library:
+  - Firestore-specific document and collection models:
+    - `FirestoreDocumentPath` and `FirestoreCollectionPath` - Type-safe path representations for Firestore structure
+    - `FirestoreDocument` - Main document class with integrated field management
+    - `FirestoreField<T>` - Specialized field implementation with automatic Firestore adapter resolution
+    - `FirestoreDocumentOutput` - Type-safe output container for Firestore document data
+  - Comprehensive datasource implementation with `FirefastStore`:
+    - Singleton service pattern with override capability for testing
+    - Complete CRUD operations implementation for Firestore documents
+    - Integrated with path-based operations from core library
+    - Merge-aware write vs. overwrite operations
+  - Powerful extension methods for fluid API:
+    - `CollectionPathExtensions` - Easy document access from collections
+    - `DocumentExtensions` - Rich navigation between documents and subcollections
+    - `PathSegmentFirestoreExtensions` - Conversion utilities for Firestore path types
+    - `FireFieldExtension` and `FireFieldListExtension` - Document creation helpers for individual fields and field lists
+  - Streamlined builder pattern for document construction:
+    - Simplified creation of documents with one or multiple fields
+    - Fluent API for building document hierarchies
+    - Type-safe field navigation and manipulation
+
 ## 0.0.16
 
 - Started implementing the firefast_firestore library with new core tools:
