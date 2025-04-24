@@ -7,10 +7,10 @@ import 'package:firefast/firefast_firestore.dart';
 /// Firestore documents, maintaining information about both the document's
 /// path in the database and its field data.
 ///
-/// This class extends [FirePathFields] with Firestore-specific implementation,
+/// This class extends [FireSetOnPath] with Firestore-specific implementation,
 /// providing methods to access document metadata and perform operations.
-class FirestoreDocument
-    extends FirePathFields<FirefastStore, FirestoreDocumentPath> {
+class FirestoreDocument extends FireSetOnPath<FirefastStore,
+    FirestoreDocumentPath, FirestoreDocument> {
   /// Creates a new [FirestoreDocument] instance.
   ///
   /// Requires the document's [path] within the Firestore database and
@@ -18,9 +18,15 @@ class FirestoreDocument
   const FirestoreDocument({
     required super.path,
     required super.fieldSet,
-  });
+  }) : super(factory: _create);
 
-  /// Creates a [FirestoreDocument] from a list of [FireField] objects.
+  static FirestoreDocument _create({
+    required FirestoreDocumentPath path,
+    required FireSet fieldSet,
+  }) =>
+      FirestoreDocument(path: path, fieldSet: fieldSet);
+
+  /// Creates a [FirestoreDocument] from a list of [FireFieldBase] objects.
   ///
   /// This factory constructor simplifies creating document instances when
   /// working with individual fields rather than a pre-constructed field set.
@@ -30,8 +36,8 @@ class FirestoreDocument
   ///   * [fields]: List of fields that belong to this document
   factory FirestoreDocument.fromFields(
           {required FirestoreDocumentPath document,
-          required List<FireField> fields}) =>
-      FirestoreDocument(path: document, fieldSet: fields.toFireSet());
+          required List<FirestoreField> fields}) =>
+      FirestoreDocument(path: document, fieldSet: FireSet(fields: fields));
 
   /// The ID of this document within its collection.
   String get id => pathSegment.segment;
@@ -39,23 +45,6 @@ class FirestoreDocument
   /// The collection that contains this document.
   FirestoreCollectionPath get collection =>
       pathSegment.parent!.toFirestoreCollection();
-
-  /// Creates a copy of this document with optional new path or field set.
-  ///
-  /// Parameters:
-  ///   * [path]: The new document path (optional)
-  ///   * [fieldSet]: The new field set (optional)
-  ///
-  /// Returns a new [FirestoreDocument] instance with the updated properties.
-  FirestoreDocument copyWith({
-    FirestoreDocumentPath? path,
-    FireFieldSet<PathSegment>? fieldSet,
-  }) {
-    return FirestoreDocument(
-      path: path ?? pathSegment,
-      fieldSet: fieldSet ?? this.fieldSet,
-    );
-  }
 
   @override
   get datasource => FirefastStore.instance;

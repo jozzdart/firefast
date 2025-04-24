@@ -1,46 +1,59 @@
 import 'package:firefast/firefast_core.dart';
 
-/// A field for Firebase document data with serialization capabilities.
-///
-/// [FireField] encapsulates a field name along with functions to convert data
-/// to and from Firebase format. It implements the [FireFieldBase] interface.
-///
-/// Type parameter [T] represents the type of data this field will handle.
-///
-/// Example:
-/// ```dart
-/// final nameField = FireField<String>(
-///   name: 'name',
-///   toFire: () async => user.name,
-///   fromFire: (dynamic value) => value as String,
-/// );
-/// ```
-class FireField<T> implements FireFieldBase<T> {
-  /// The name of this field in the Firebase document.
-  @override
+abstract class FireFieldBase<T> extends FirePort<T> {
   final String name;
 
-  /// Function that returns the value to be stored in Firebase.
-  ///
-  /// This delegate is called when converting local data to Firebase format.
-  @override
-  final ToFireDelegate toFire;
+  FireAdapter<T> get adapter;
 
-  /// Function that converts a Firebase value to the local type [T].
-  ///
-  /// This delegate is called when retrieving data from Firebase.
-  @override
-  final FromFireDelegate<T> fromFire;
-
-  /// Creates a new [FireField] instance.
-  ///
-  /// All parameters are required:
-  /// - [name]: The field name as stored in Firebase
-  /// - [toFire]: Function that returns the data to be stored
-  /// - [fromFire]: Function that converts Firebase data to type [T]
-  const FireField({
-    required this.name,
-    required this.toFire,
-    required this.fromFire,
+  FireFieldBase(
+    this.name, {
+    required super.receiveData,
+    required super.onFetched,
+    super.isValid,
+    super.shouldCancelAll,
   });
+
+  Future<MapEntryOutput> toMapEntry() async {
+    final data = await receiveData();
+    final isValueValid = await isValid?.call(data) ?? true;
+
+    if (!isValueValid) {
+      return MapEntryOutput(
+        entry: null,
+        status: MapEntryOutputStatus.invalid,
+      );
+    }
+
+    final shouldCancel = await shouldCancelAll?.call(data) ?? false;
+    if (shouldCancel) {
+      return MapEntryOutput(
+        entry: null,
+        status: MapEntryOutputStatus.cancelAll,
+      );
+    }
+
+    final fireData = await adapter.toFire(data);
+    return MapEntryOutput(
+      entry: MapEntry(name, fireData),
+      status: MapEntryOutputStatus.valid,
+    );
+  }
+
+  Future<void> fromMapEntry(dynamic rawValue) async {
+    if (rawValue == null) return;
+    final value = await adapter.fromFire(rawValue);
+    await onFetched(value);
+  }
+}
+
+enum MapEntryOutputStatus {
+  invalid,
+  valid,
+  cancelAll,
+}
+
+class MapEntryOutput {
+  final MapEntryOutputStatus status;
+  final MapEntry<String, dynamic>? entry;
+  MapEntryOutput({required this.status, required this.entry});
 }
