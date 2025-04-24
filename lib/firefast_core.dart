@@ -57,8 +57,12 @@
 ///   // Implementation details...
 /// }
 /// ```
+
 library;
 
+export 'core/adapters/fire_adapters.dart';
+export 'core/adapters/list_fire_adapters.dart';
+export 'core/adapters/typedefs.dart';
 export 'core/extensions/fire_field_extensions.dart';
 export 'core/global/firefast.dart';
 export 'core/models/fire_field.dart';

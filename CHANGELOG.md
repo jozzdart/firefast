@@ -1,3 +1,15 @@
+## 0.0.12
+
+- Started rewrite of core library
+- Enhanced adapter system implementation:
+  - Integrated comprehensive type adapters for automatic Firebase data conversion
+  - Included all possible adapter types for fast access without manual definition
+  - `BaseFireAdapter` - Foundation adapter with toFire/fromFire conversion methods
+  - `FireAdapter` - Type-safe adapter implementation with nullable support
+  - `FireAdapterMap` - Registry system for type adapters with automatic registration
+  - `ListFireAdapter` - Specialized adapter for handling lists of any type
+  - Added adapters for primitive types (bool, int, double, String) and complex types (DateTime, Uint8List, Map, List)
+
 ## 0.0.11
 
 - Enhanced cache services implementation:
