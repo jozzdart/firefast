@@ -1,10 +1,23 @@
+## 0.0.21
+
+- Added testing framework for `firefast_realtime`:
+  - `RealtimeTestUtils` for core utilities:
+    - `FirefastReal` factory with `MockFirebaseDatabase`
+    - Isolated service management
+    - Consistent setup/teardown
+  - Extensive `FirefastReal` tests:
+    - CRUD, nested structures, edge cases
+    - Type handling for primitives, arrays, maps
+    - Root-level, sequential, and concurrent operations
+    - Type conversion, null, and deletion handling
+
 ## 0.0.20
 
 - Completed implementation of the Firebase Realtime Database library:
   - Core models for Realtime Database:
     - `RealtimeNodePath` - Type-safe representation of database node paths
     - `RealtimeNode` - Main node class with integrated field management
-    - `RealtimeField<T>` - Specialized field implementation with automatic adapter resolution
+    - `RealtimeField<T>` - Field implementation with automatic adapter resolution
     - `FireRealtimeAdapters` - Dedicated adapter system for Realtime Database types
   - Comprehensive datasource implementation with `FirefastReal`:
     - Singleton service pattern with override capability for testing
