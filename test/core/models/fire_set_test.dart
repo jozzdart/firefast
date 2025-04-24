@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:test/test.dart';
 import 'package:firefast/firefast_core.dart';
 
@@ -61,7 +60,6 @@ void main() {
       final map = await fireSet.toMap();
 
       expect(map, isA<Map<String, dynamic>>());
-      debugPrint(map.toString());
       expect(map['stringField'], equals('test-data'));
       expect(map['intField'], equals(42));
       expect(map['boolField'], equals(true));

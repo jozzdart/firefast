@@ -1,3 +1,16 @@
+## 0.0.18
+
+- Introduced the base testing framework for `firefast_firestore`:
+  - `FirestoreTestUtils` for core testing utilities:
+    - `FirefastStore` factory with fake Firestore
+  - Extensive `FirefastStore` tests:
+    - CRUD operations, nested structures, collections, edge cases
+    - Sequential and stress tests
+  - Path operation tests:
+    - Path construction, hierarchy, and integrity
+    - Document navigation and path equivalence
+    - Integration with document operations
+
 ## 0.0.17
 
 - Completed implementation of the firefast_firestore library:
