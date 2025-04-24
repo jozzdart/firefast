@@ -1,3 +1,24 @@
+## 0.0.15
+
+- Added comprehensive path-based data handling system in core/path:
+  - `PathSegment` - Hierarchical path representation with parent-child relationships
+    - Fluent API for building nested paths with `child()` method
+    - Automatic path string generation with proper delimiters
+  - Standardized path-based operations interfaces:
+    - `ReadOnPath<D>` - Type-safe read operations at a specific path
+    - `WriteOnPath<D>` - Type-safe write operations at a specific path
+    - `OverwriteOnPath<D>` - Complete data replacement at a specific path
+    - `DeleteOnPath` - Data removal at a specific path
+  - Enhanced data objects with path context:
+    - `DataOnPathObject<O>` - Interface combining CRUD operations for objects at paths
+    - `DataOnPathWithSource<S, O>` - Extension with integrated data source
+    - `PathBasedDataSource<D, S>` - Abstract foundation for path-based data sources
+  - Advanced field set operations:
+    - `FireSetOnPath<S, P, Self>` - Self-referential generic for type-safe path operations
+    - Field-level operations including selective field deletion
+    - Type-safe field retrieval with automatic deserialization
+    - Path-aware field set manipulations with immutable pattern
+
 ## 0.0.14
 
 ### Core Models Rewrite
