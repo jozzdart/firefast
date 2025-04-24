@@ -10,7 +10,6 @@ class RealtimeAdapters extends FireAdapterMap {
 
   @override
   void registerAll() {
-    if (registered) return;
     super.registerAdapters();
     registerListAdapters();
     super.registerAll();

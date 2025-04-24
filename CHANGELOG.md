@@ -1,3 +1,26 @@
+## 0.0.20
+
+- Completed implementation of the Firebase Realtime Database library:
+  - Core models for Realtime Database:
+    - `RealtimeNodePath` - Type-safe representation of database node paths
+    - `RealtimeNode` - Main node class with integrated field management
+    - `RealtimeField<T>` - Specialized field implementation with automatic adapter resolution
+    - `FireRealtimeAdapters` - Dedicated adapter system for Realtime Database types
+  - Comprehensive datasource implementation with `FirefastReal`:
+    - Singleton service pattern with override capability for testing
+    - Complete CRUD operations implementation for database nodes
+    - Integrated with path-based operations from core library
+    - Automatic type conversion for complex data structures
+  - Powerful extension methods for fluid API:
+    - `RealtimeNodePathExtensions` - Node field operations
+    - `PathSegmentRealtimeExtensions` - Conversion utilities for path types
+    - `FireFieldListRealtimeExtensions` and `FireFieldRealtimeExtensions` - Node creation helpers
+  - Streamlined builder pattern for node construction:
+    - Type-safe field management
+    - Fluent API for building node hierarchies
+    - Simplified path navigation
+  - Comprehensive library exports with `firefast_realtime.dart`
+
 ## 0.0.19
 
 - Added type adapters for Firebase Realtime Database:
