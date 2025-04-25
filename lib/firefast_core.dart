@@ -2,7 +2,9 @@ library;
 
 export 'core/adapters/fire_adapters.dart';
 export 'core/adapters/list_fire_adapters.dart';
-export 'core/adapters/typedefs.dart';
+
+export 'core/guards/operation_guard.dart';
+export 'core/guards/typedefs.dart';
 
 export 'core/models/fire_field.dart';
 export 'core/models/fire_port.dart';

@@ -10,9 +10,9 @@ class FireSet {
     for (final field in fields) {
       final entry = await field.toMapEntry();
       switch (entry.status) {
-        case MapEntryOutputStatus.invalid:
+        case OperationGuardStatus.invalid:
           continue;
-        case MapEntryOutputStatus.cancelAll:
+        case OperationGuardStatus.cancelAll:
           return {};
         default:
           entries[entry.entry!.key] = entry.entry!.value;

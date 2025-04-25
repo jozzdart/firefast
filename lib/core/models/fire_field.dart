@@ -20,7 +20,7 @@ abstract class FireFieldBase<T> extends FirePort<T> {
     if (!isValueValid) {
       return MapEntryOutput(
         entry: null,
-        status: MapEntryOutputStatus.invalid,
+        status: OperationGuardStatus.invalid,
       );
     }
 
@@ -28,32 +28,33 @@ abstract class FireFieldBase<T> extends FirePort<T> {
     if (shouldCancel) {
       return MapEntryOutput(
         entry: null,
-        status: MapEntryOutputStatus.cancelAll,
+        status: OperationGuardStatus.cancelAll,
       );
     }
 
     final fireData = await adapter.toFire(data);
     return MapEntryOutput(
       entry: MapEntry(name, fireData),
-      status: MapEntryOutputStatus.valid,
+      status: OperationGuardStatus.valid,
     );
   }
 
-  Future<void> fromMapEntry(dynamic rawValue) async {
-    if (rawValue == null) return;
+  Future<T?> fromMapEntry(dynamic rawValue) async {
+    if (rawValue == null) return null;
     final value = await adapter.fromFire(rawValue);
     await onFetched(value);
+    return value;
   }
 }
 
-enum MapEntryOutputStatus {
+enum OperationGuardStatus {
   invalid,
   valid,
   cancelAll,
 }
 
 class MapEntryOutput {
-  final MapEntryOutputStatus status;
+  final OperationGuardStatus status;
   final MapEntry<String, dynamic>? entry;
   MapEntryOutput({required this.status, required this.entry});
 }

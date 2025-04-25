@@ -14,8 +14,8 @@ void main() {
   group('FirePort', () {
     late ToFireDelegate<String> receiveData;
     late FromFireDelegate<String> onFetched;
-    late IsValid<String> isValid;
-    late ShouldCancelAll<String> shouldCancelAll;
+    late IsValueValid<String> isValid;
+    late ValueCancelOperation<String> shouldCancelAll;
     late TestFirePort<String> firePort;
 
     setUp(() {
