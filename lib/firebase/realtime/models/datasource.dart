@@ -2,8 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_realtime.dart';
 
-class FirefastReal
-    extends PathBasedDataSource<Map<String, dynamic>, FirebaseDatabase> {
+class FirefastReal extends PathBasedDataSource<FirebaseDatabase> {
   static FirefastReal? _instance;
 
   /// Get the singleton instance, or create it if it doesn't exist

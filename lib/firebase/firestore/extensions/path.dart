@@ -1,3 +1,4 @@
+import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_firestore.dart';
 
 extension CollectionPathExtensions on FirestoreCollectionPath {
@@ -9,16 +10,15 @@ extension DocumentExtensions on FirestoreDocumentPath {
   FirestoreCollectionPath col(String collection) =>
       child(collection).toFirestoreCollection();
 
-  FirestoreDocument withFields(List<FirestoreField> fields) {
-    return FirestoreDocument.fromFields(document: this, fields: fields);
+  FirestoreDocument withFields(List<FireValue> values) {
+    return FirestoreDocument(path: this, fireValues: values);
   }
 
-  FirestoreDocument withField(FirestoreField field) => withFields([field]);
+  FirestoreDocument withField(FireValue value) => withFields([value]);
 
-  FirestoreDocument addField(FirestoreField field) => withField(field);
+  FirestoreDocument addField(FireValue value) => withField(value);
 
-  FirestoreDocument addFields(List<FirestoreField> fields) =>
-      withFields(fields);
+  FirestoreDocument addFields(List<FireValue> values) => withFields(values);
 
   FirestoreDocumentPath sub(String collection, String docId) =>
       FirestoreDocumentPath(

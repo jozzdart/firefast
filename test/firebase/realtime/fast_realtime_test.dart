@@ -1,3 +1,4 @@
+import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_realtime.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'realtime_test_utils.dart';
@@ -26,6 +27,157 @@ void main() {
 
         // Assert
         final result = await FirefastReal.instance.read(path);
+        expect(result, {
+          'name': 'Test User',
+          'email': 'test@example.com',
+          'age': 31,
+        });
+      });
+
+      test('fields example 2', () async {
+        final nameField = FireValue<String>(
+          'name',
+          toFire: 'Test User'.toFire(),
+        );
+
+        final emailField = FireValue<String>(
+          'email',
+          toFire: 'test@example.com'.toFire(),
+        );
+
+        final ageField = FireValue<int>(
+          'age',
+          toFire: 30.toFire(),
+        );
+
+        final ageFieldUpdated = FireValue<int>(
+          'age',
+          toFire: 31.toFire(),
+        );
+
+        final node = FirefastReal.node("users").node('testUser');
+
+        final initial = [nameField, ageField].realtime(node);
+        final updated = [emailField, ageFieldUpdated].realtime(node);
+
+        await initial.write();
+        await updated.write();
+
+        // Assert
+        final result = await FirefastReal.instance.read(node.path);
+        expect(result, {
+          'name': 'Test User',
+          'email': 'test@example.com',
+          'age': 31,
+        });
+      });
+
+      test('fields example 2', () async {
+        final nameField = FireValue<String>(
+          'name',
+          toFire: 'Test User'.toFire(),
+        );
+
+        final emailField = FireValue<String>(
+          'email',
+          toFire: 'test@example.com'.toFire(),
+        );
+
+        final ageField = FireValue<int>(
+          'age',
+          toFire: 30.toFire(),
+        );
+
+        final ageFieldUpdated = FireValue<int>(
+          'age',
+          toFire: 31.toFire(),
+        );
+
+        final node = FirefastReal.node("users").node('testUser');
+
+        final initial = [nameField, ageField].realtime(node);
+        final updated = [emailField, ageFieldUpdated].realtime(node);
+
+        await initial.write();
+        await updated.write();
+
+        final result = await FirefastReal.instance.read(node.path);
+        expect(result, {
+          'name': 'Test User',
+          'email': 'test@example.com',
+          'age': 31,
+        });
+
+        await FireValue<int>(
+          'age',
+          toFire: 32.toFire(),
+        ).realtime(node).write();
+
+        // Assert
+        final result2 = await FirefastReal.instance.read(node.path);
+        expect(result2, {
+          'name': 'Test User',
+          'email': 'test@example.com',
+          'age': 32,
+        });
+
+        await FireValue<int>(
+          'age',
+          toFire: 33.toFire(),
+        ).realtime(node).overwrite();
+
+        final result3 = await FirefastReal.instance.read(node.path);
+        expect(result3, {
+          'age': 33,
+        });
+
+        final ageFieldNoValues = FireValue<int>(
+          'age',
+          fromFire: FromFire.sync(
+            (e) {
+              expect(e, equals(33));
+            },
+          ),
+        );
+
+        await node.withField(ageFieldNoValues).read();
+        await node.withFields([]).delete();
+
+        final result4 = await FirefastReal.instance.read(node.path);
+        expect(result4, null);
+      });
+
+      test('fields example', () async {
+        final nameField = FireValue<String>(
+          'name',
+          toFire: 'Test User'.toFire(),
+        );
+
+        final emailField = FireValue<String>(
+          'email',
+          toFire: 'test@example.com'.toFire(),
+        );
+
+        final ageField = FireValue<int>(
+          'age',
+          toFire: 30.toFire(),
+        );
+
+        final ageFieldUpdated = FireValue<int>(
+          'age',
+          toFire: 31.toFire(),
+        );
+
+        final path = FirefastReal.node("users").node('testUser');
+
+        final initial = path.withFields([nameField, ageField]);
+        final updated = path.withFields([emailField, ageFieldUpdated]);
+
+        await initial.write();
+        await updated.write();
+
+        // Assert
+        final result = await FirefastReal.instance.read(path.path);
         expect(result, {
           'name': 'Test User',
           'email': 'test@example.com',

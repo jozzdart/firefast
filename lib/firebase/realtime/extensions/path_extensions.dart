@@ -1,13 +1,19 @@
+import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_realtime.dart';
 
 extension RealtimeNodePathExtensions on RealtimeNodePath {
-  RealtimeNode withFields(List<RealtimeField> fields) {
-    return RealtimeNode.fromFields(node: this, fields: fields);
+  RealtimeNode withFields(List<FireValue> values) {
+    return RealtimeNode(path: this, fireValues: values);
   }
 
-  RealtimeNode withField(RealtimeField field) => withFields([field]);
+  RealtimeNode withField(FireValue value) => withFields([value]);
 
-  RealtimeNode addField(RealtimeField field) => withField(field);
+  RealtimeNode addField(FireValue value) => withField(value);
 
-  RealtimeNode addFields(List<RealtimeField> fields) => withFields(fields);
+  RealtimeNode addFields(List<FireValue> values) => withFields(values);
+
+  Future<void> delete() async => await withFields([]).delete();
+
+  Future<void> writeFields(List<FireValue> values) async =>
+      await withFields(values).delete();
 }
