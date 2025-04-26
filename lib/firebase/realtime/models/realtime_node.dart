@@ -2,25 +2,14 @@ import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_realtime.dart';
 
 class RealtimeNode
-    extends FireSetOnPath<FirefastReal, RealtimeNodePath, RealtimeNode> {
+    extends OperatablePathObject<FirefastReal, RealtimeNodePath> {
   const RealtimeNode({
     required super.path,
-    required super.fieldSet,
-  }) : super(factory: _create);
+    required super.fireValues,
+    super.fireGuards,
+  });
 
-  static RealtimeNode _create({
-    required RealtimeNodePath path,
-    required FireSet fieldSet,
-  }) =>
-      RealtimeNode(path: path, fieldSet: fieldSet);
-
-  RealtimeNodePath get node => pathSegment;
-
-  factory RealtimeNode.fromFields({
-    required RealtimeNodePath node,
-    required List<RealtimeField> fields,
-  }) =>
-      RealtimeNode(path: node, fieldSet: FireSet(fields: fields));
+  RealtimeNodePath get node => path;
 
   @override
   FirefastReal get datasource => FirefastReal.instance;

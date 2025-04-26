@@ -3,19 +3,6 @@ import 'package:firefast/firefast_core.dart';
 
 import '../adapters/fire_adapters_test.dart';
 
-class TestFireField<T> extends FireFieldBase<T> {
-  @override
-  final FireAdapter<T> adapter = TestFireAdapterMap.instance.of<T>();
-
-  TestFireField(
-    super.name, {
-    required super.receiveData,
-    required super.onFetched,
-    super.isValid,
-    super.shouldCancelAll,
-  });
-}
-
 void main() {
   group('FireField', () {
     late TestFireAdapterMap adapterMap;
@@ -28,107 +15,102 @@ void main() {
 
     test('should initialize with all properties', () {
       final stringAdapter = adapterMap.of<String>();
-      final field = TestFireField<String>(
+      final field = FireValue<String>(
         'testField',
-        receiveData: () async => 'test-data',
-        onFetched: (_) async {},
-        isValid: (value) async => value != null,
-        shouldCancelAll: (value) async => value == 'cancel',
+        toFire: ToFire.sync('test-data'),
       );
 
       expect(field.name, equals('testField'));
-      expect(field.adapter, equals(stringAdapter));
+      expect(adapterMap.of<String>(), equals(stringAdapter));
     });
 
     test('should properly inherit FirePort methods', () async {
       String receivedValue = '';
 
-      final field = TestFireField<String>(
+      final field = FireValue<String>(
         'testField',
-        receiveData: () async => 'test-data',
-        onFetched: (value) async {
-          receivedValue = value ?? '';
-        },
+        toFire: 'test-data'.toFire(),
+        fromFire: FromFire.sync(
+          (value) {
+            receivedValue = value ?? '';
+          },
+        ),
       );
 
-      expect(await field.receiveData(), equals('test-data'));
+      expect(await field.receiveToFire(), equals('test-data'));
 
-      await field.onFetched('received-data');
+      await field.onInput('received-data');
       expect(receivedValue, equals('received-data'));
     });
 
     test('works with various data types using their corresponding adapters',
         () async {
       // Test with string adapter
-      final stringField = TestFireField<String>(
+      final stringField = FireValue<String>(
         'stringField',
-        receiveData: () async => 'string-value',
-        onFetched: (_) async {},
+        toFire: 'string-value'.toFire(),
       );
-      expect(stringField.adapter, isA<StringFireAdapter>());
-      expect(await stringField.receiveData(), equals('string-value'));
+      expect(adapterMap.of<String>(), isA<StringFireAdapter>());
+      expect(await stringField.receiveToFire(), equals('string-value'));
 
       // Test with int adapter
-      final intField = TestFireField<int>(
+      final intField = FireValue<int>(
         'intField',
-        receiveData: () async => 42,
-        onFetched: (_) async {},
+        toFire: 42.toFire(),
       );
-      expect(intField.adapter, isA<IntFireAdapter>());
-      expect(await intField.receiveData(), equals(42));
+      expect(adapterMap.of<int>(), isA<IntFireAdapter>());
+      expect(await intField.receiveToFire(), equals(42));
 
       // Test with bool adapter
-      final boolField = TestFireField<bool>(
+      final boolField = FireValue<bool>(
         'boolField',
-        receiveData: () async => true,
-        onFetched: (_) async {},
+        toFire: true.toFire(),
       );
-      expect(boolField.adapter, isA<BoolFireAdapter>());
-      expect(await boolField.receiveData(), equals(true));
+      expect(adapterMap.of<bool>(), isA<BoolFireAdapter>());
+      expect(await boolField.receiveToFire(), equals(true));
 
       // Test with datetime adapter
-      final datetimeField = TestFireField<DateTime>(
+      final datetimeField = FireValue<DateTime>(
         'datetimeField',
-        receiveData: () async => DateTime(2023, 1, 1),
-        onFetched: (_) async {},
+        toFire: DateTime(2023, 1, 1).toFire(),
       );
-      expect(datetimeField.adapter, isA<DateTimeFireAdapter>());
-      expect(await datetimeField.receiveData(), equals(DateTime(2023, 1, 1)));
+      expect(adapterMap.of<DateTime>(), isA<DateTimeFireAdapter>());
+      expect(await datetimeField.receiveToFire(), equals(DateTime(2023, 1, 1)));
     });
 
     test('adapter should be able to convert values to and from Fire format',
         () async {
-      final field = TestFireField<String>(
+      final field = FireValue<String>(
         'testField',
-        receiveData: () async => 'test-data',
-        onFetched: (_) async {},
+        toFire: 'test-data'.toFire(),
       );
 
-      final fieldValue = await field.receiveData();
+      final fieldValue = await field.receiveToFire();
       expect(fieldValue, equals('test-data'));
 
-      final fireValue = await field.adapter.toFire(fieldValue);
+      final fireValue = await adapterMap.of<String>().toFire(fieldValue);
       expect(fireValue, equals('test-data'));
 
-      final reconstructedValue = await field.adapter.fromFire(fireValue);
+      final reconstructedValue =
+          await adapterMap.of<String>().fromFire(fireValue);
       expect(reconstructedValue, equals('test-data'));
     });
 
     test('list field works properly with list adapter', () async {
-      final listField = TestFireField<List<String?>>(
+      final listField = FireValue<List<String?>>(
         'listField',
-        receiveData: () async => ['a', 'b', null, 'c'],
-        onFetched: (_) async {},
+        toFire: ['a', 'b', null, 'c'].toFire(),
       );
 
-      final fieldValue = await listField.receiveData();
+      final fieldValue = await listField.receiveToFire();
       expect(fieldValue, equals(['a', 'b', null, 'c']));
 
-      final fireValue = await listField.adapter.toFire(fieldValue);
+      final fireValue = await adapterMap.of<List<String?>>().toFire(fieldValue);
       expect(fireValue, isA<List>());
       expect(fireValue, equals(['a', 'b', null, 'c']));
 
-      final reconstructedValue = await listField.adapter.fromFire(fireValue);
+      final reconstructedValue =
+          await adapterMap.of<List<String?>>().fromFire(fireValue);
       expect(reconstructedValue, equals(['a', 'b', null, 'c']));
     });
   });

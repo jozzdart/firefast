@@ -11,54 +11,6 @@ abstract class FireAdapter<T> extends BaseFireAdapter<T?> {
   const FireAdapter();
 }
 
-abstract class FireAdapterMap {
-  final Map<Type, FireAdapter<dynamic>> _registry = {};
-  bool registered = false;
-
-  /// Registers an adapter for type [T] if not already registered.
-  void register<T>(
-    FireAdapter<T> adapter, {
-    bool override = false,
-  }) {
-    if (override || !_registry.containsKey(T)) {
-      _registry[T] = adapter;
-    }
-  }
-
-  /// Retrieves the adapter for type [T]. Throws if not registered.
-  FireAdapter<T> of<T>() {
-    if (!registered) {
-      registerAll();
-    }
-    final adapter = _registry[T];
-    if (adapter == null) {
-      throw StateError('No adapter registered for type $T');
-    }
-    return adapter as FireAdapter<T>;
-  }
-
-  /// Retrieves the adapter for type [T]. Throws if not registered.
-  FireAdapter<List<T?>> listOf<T>() => of<List<T?>>();
-
-  /// Returns true if an adapter for type [T] has been registered.
-  bool contains<T>() => _registry.containsKey(T);
-
-  void registerAll() {
-    registered = true;
-  }
-
-  void registerAdapters() {
-    register<bool>(BoolFireAdapter());
-    register<int>(IntFireAdapter());
-    register<double>(DoubleFireAdapter());
-    register<String>(StringFireAdapter());
-    register<DateTime>(DateTimeFireAdapter());
-    register<Uint8List>(BytesStringFireAdapter());
-    register<Map<String, dynamic>>(MapFireAdapter());
-    register<List<dynamic>>(ListDynamicFireAdapter());
-  }
-}
-
 class BoolFireAdapter extends FireAdapter<bool> {
   @override
   Future<dynamic> toFire(bool? value) async => value;

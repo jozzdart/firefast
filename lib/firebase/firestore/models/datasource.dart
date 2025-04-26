@@ -8,8 +8,7 @@ import 'package:firefast/firefast_firestore.dart';
 /// for Firestore documents, using the singleton pattern for global access.
 /// This class acts as a wrapper around [FirebaseFirestore] to provide a more
 /// convenient API for working with Firestore data.
-class FirefastStore
-    extends PathBasedDataSource<Map<String, dynamic>, FirebaseFirestore> {
+class FirefastStore extends PathBasedDataSource<FirebaseFirestore> {
   static FirefastStore? _instance;
 
   /// Gets the singleton instance of [FirefastStore].

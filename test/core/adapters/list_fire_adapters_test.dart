@@ -1,13 +1,11 @@
 import 'package:test/test.dart';
 import 'package:firefast/firefast_core.dart';
 
-import 'fire_adapters_test.dart';
-
 void main() {
   group('ListFireAdapter', () {
     test('basic functionality', () async {
       // Create a concrete implementation of ListFireAdapter
-      final adapter = TestListFireAdapter<String>();
+      final adapter = FireAdapterMap.instance.listOf<String>();
 
       // Test data
       final testList = ['a', 'b', null, 'c'];
@@ -21,7 +19,7 @@ void main() {
     });
 
     test('handles null', () async {
-      final adapter = TestListFireAdapter<String>();
+      final adapter = FireAdapterMap.instance.listOf<String>();
 
       expect(await adapter.toFire(null), isNull);
       expect(await adapter.fromFire(null), isNull);
@@ -29,7 +27,7 @@ void main() {
 
     test('converts each item using the item adapter', () async {
       // Create a mock adapter that we can control
-      final adapter = TestListFireAdapter<int>();
+      final adapter = FireAdapterMap.instance.listOf<int>();
 
       // Test data
       final testList = [1, 2, null, 3];
@@ -42,7 +40,7 @@ void main() {
     });
 
     test('handles empty lists', () async {
-      final adapter = TestListFireAdapter<String>();
+      final adapter = FireAdapterMap.instance.listOf<String>();
 
       final emptyList = <String?>[];
 
@@ -57,8 +55,7 @@ void main() {
 
     test('nested list conversion', () async {
       // Create adapters for nested lists
-
-      final outerAdapter = TestListFireAdapter<String>();
+      final outerAdapter = FireAdapterMap.instance.listOf<String>();
 
       // Test data: a list of lists of strings
       final testData = ['a', 'b', null, 'c', 'd', null, 'e', null, 'f'];
@@ -75,26 +72,26 @@ void main() {
       // Test with various value types
       final types = [
         {
-          'adapter': TestListFireAdapter<bool>(),
+          'adapter': FireAdapterMap.instance.listOf<bool>(),
           'data': [true, false, null, true],
         },
         {
-          'adapter': TestListFireAdapter<int>(),
+          'adapter': FireAdapterMap.instance.listOf<int>(),
           'data': [1, 2, null, 3],
         },
         {
-          'adapter': TestListFireAdapter<double>(),
+          'adapter': FireAdapterMap.instance.listOf<double>(),
           'data': [1.1, 2.2, null, 3.3],
         },
         {
-          'adapter': TestListFireAdapter<String>(),
+          'adapter': FireAdapterMap.instance.listOf<String>(),
           'data': ['a', 'b', null, 'c'],
         },
       ];
 
       // Test each type
       for (final type in types) {
-        final adapter = type['adapter'] as TestListFireAdapter;
+        final adapter = type['adapter'] as ListFireAdapter;
         final data = type['data'] as List;
 
         final fireData = await adapter.toFire(data);
@@ -105,7 +102,7 @@ void main() {
     });
 
     test('performance with large lists', () async {
-      final adapter = TestListFireAdapter<int>();
+      final adapter = FireAdapterMap.instance.listOf<int>();
 
       // Create a large list
       final largeList = List.generate(500, (i) => i);
@@ -125,15 +122,4 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(1000));
     });
   });
-}
-
-// Concrete implementation of ListFireAdapter for testing
-class TestListFireAdapter<T> extends ListFireAdapter<T> {
-  @override
-  FireAdapter<T> get itemAdapter {
-    // Lazily get the adapter only when needed, not at construction time
-    return TestFireAdapterMap.instance.of<T>();
-  }
-
-  TestListFireAdapter();
 }
