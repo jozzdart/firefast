@@ -7,45 +7,30 @@ import 'package:firefast/firefast_firestore.dart';
 /// Firestore documents, maintaining information about both the document's
 /// path in the database and its field data.
 ///
-/// This class extends [FireSetOnPath] with Firestore-specific implementation,
+/// This class extends [OperatablePathObject] with Firestore-specific implementation,
 /// providing methods to access document metadata and perform operations.
-class FirestoreDocument extends FireSetOnPath<FirefastStore,
-    FirestoreDocumentPath, FirestoreDocument> {
+class FirestoreDocument
+    extends OperatablePathObject<FirefastStore, FirestoreDocumentPath> {
   /// Creates a new [FirestoreDocument] instance.
   ///
   /// Requires the document's [path] within the Firestore database and
   /// a [fieldSet] containing the document's fields and their values.
-  const FirestoreDocument({
+  FirestoreDocument({
     required super.path,
-    required super.fieldSet,
-  }) : super(factory: _create);
-
-  static FirestoreDocument _create({
-    required FirestoreDocumentPath path,
-    required FireSet fieldSet,
-  }) =>
-      FirestoreDocument(path: path, fieldSet: fieldSet);
-
-  /// Creates a [FirestoreDocument] from a list of [FireFieldBase] objects.
-  ///
-  /// This factory constructor simplifies creating document instances when
-  /// working with individual fields rather than a pre-constructed field set.
-  ///
-  /// Parameters:
-  ///   * [document]: The path to the document in Firestore
-  ///   * [fields]: List of fields that belong to this document
-  factory FirestoreDocument.fromFields(
-          {required FirestoreDocumentPath document,
-          required List<FirestoreField> fields}) =>
-      FirestoreDocument(path: document, fieldSet: FireSet(fields: fields));
+    required super.fireValues,
+    super.fireGuards,
+  });
 
   /// The ID of this document within its collection.
-  String get id => pathSegment.segment;
+  String get id => path.segment;
 
   /// The collection that contains this document.
   FirestoreCollectionPath get collection =>
-      pathSegment.parent!.toFirestoreCollection();
+      path.parent!.toFirestoreCollection();
 
   @override
   get datasource => FirefastStore.instance;
+
+  @override
+  FireAdapterMap get adapters => FirestoreAdapters.instance;
 }

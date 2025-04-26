@@ -1,11 +1,25 @@
+import 'dart:typed_data';
+
+import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'firestore_test_utils.dart';
 
 void main() {
   group('FastFirestore.instance tests', () {
+    final fieldValue = 'jozz';
+
+    FireValue<String> field;
+
+    FirestoreDocument doc;
+
     setUp(() {
       FirestoreTestUtils.setUpFireTests();
+      field = FireValue<String>(
+        'name',
+        toFire: fieldValue.toFire(),
+      );
+      doc = field.firestoreNewDoc('users', 'user123');
     });
 
     tearDown(() {
@@ -14,6 +28,23 @@ void main() {
 
     // Basic CRUD operations
     group('Basic CRUD operations', () {
+      test('testing field', () async {
+        field = FireValue<String>(
+          'name',
+          toFire: fieldValue.toFire(),
+        );
+        doc = field.firestoreNewDoc('users', 'user123');
+        await doc.write();
+        final fromFire = await FirefastStore.instance.read(doc.path.path);
+        final outputs = await doc.fromMap(fromFire, FirestoreAdapters.instance);
+        final valueOnFire = outputs?.get(field);
+        final adapterOnField = doc.adapters.of<Uint8List>().runtimeType;
+        final adapterBlob = BlobFireAdapter().runtimeType;
+
+        expect(valueOnFire, equals(fieldValue));
+        expect(adapterOnField, equals(adapterBlob));
+      });
+
       test('write() should merge data at a document path', () async {
         // Arrange
         final path = 'users/testUser';

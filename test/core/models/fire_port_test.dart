@@ -1,97 +1,107 @@
 import 'package:test/test.dart';
 import 'package:firefast/firefast_core.dart';
 
+abstract class FireFieldBase<T> extends FirePort<T> {
+  final String name;
+  FireAdapter<T> get adapter;
+
+  FireFieldBase(
+    this.name, {
+    super.fromFire,
+    super.toFire,
+  });
+
+  Future<MapEntryToFire?> toMapEntry() async =>
+      await super.portToEntry(name, adapter);
+
+  Future<T?> fromMapEntry(dynamic rawValue) async =>
+      super.fromEntry(rawValue, adapter);
+}
+
 class TestFirePort<T> extends FirePort<T> {
   TestFirePort({
-    required super.receiveData,
-    required super.onFetched,
-    super.isValid,
-    super.shouldCancelAll,
+    super.fromFire,
+    super.toFire,
   });
 }
 
 void main() {
   group('FirePort', () {
-    late ToFireDelegate<String> receiveData;
-    late FromFireDelegate<String> onFetched;
-    late IsValueValid<String> isValid;
-    late ValueCancelOperation<String> shouldCancelAll;
+    late ToFire<String> toFire;
+    late BaseValueGuard<String> isValid;
+    late BaseValueGuard<String> allowOperation;
     late TestFirePort<String> firePort;
 
     setUp(() {
       // Set up the delegates
-      receiveData = () async => 'test-data';
-      onFetched = (_) async {};
-      isValid = (value) async => value != null;
-      shouldCancelAll = (value) async => value == 'cancel';
+      isValid = FireValueGuard.sync((String? value) => value != null);
+      allowOperation =
+          FireValueGuard.sync((String? value) => value != 'cancel');
+
+      toFire = 'test-data'.toFire(
+        validationGuard: isValid,
+        allowOperationGuard: allowOperation,
+      );
 
       firePort = TestFirePort<String>(
-        receiveData: receiveData,
-        onFetched: onFetched,
-        isValid: isValid,
-        shouldCancelAll: shouldCancelAll,
+        toFire: toFire,
       );
     });
 
     test('should properly initialize with required delegates', () {
-      expect(firePort.receiveData, equals(receiveData));
-      expect(firePort.onFetched, equals(onFetched));
-      expect(firePort.isValid, equals(isValid));
-      expect(firePort.shouldCancelAll, equals(shouldCancelAll));
+      expect(firePort.toFire.receiveData, equals(toFire.receiveData));
+      expect(firePort.toFire.validationGuard, equals(isValid));
+      expect(firePort.toFire.allowOperationGuard, equals(allowOperation));
     });
 
     test('should allow initialization with only required delegates', () {
       final basicFirePort = TestFirePort<String>(
-        receiveData: receiveData,
-        onFetched: onFetched,
+        toFire: toFire,
       );
 
-      expect(basicFirePort.receiveData, equals(receiveData));
-      expect(basicFirePort.onFetched, equals(onFetched));
-      expect(basicFirePort.isValid, isNull);
-      expect(basicFirePort.shouldCancelAll, isNull);
+      expect(basicFirePort.toFire.receiveData, equals(toFire.receiveData));
+
+      expect(basicFirePort.toFire.validationGuard, equals(isValid));
+      expect(basicFirePort.toFire.allowOperationGuard, equals(allowOperation));
     });
 
     test('delegates should execute properly', () async {
-      final result = await firePort.receiveData();
+      final result = await firePort.receiveToFire();
       expect(result, equals('test-data'));
 
-      bool validResult = await firePort.isValid!('test-data');
+      bool? validResult = await firePort.toFire.isValid('test-data');
       expect(validResult, isTrue);
 
-      bool cancelResult = await firePort.shouldCancelAll!('cancel');
-      expect(cancelResult, isTrue);
+      bool? cancelResult = await firePort.toFire.allowsOperation('cancel');
+      expect(cancelResult, isFalse);
     });
 
     test('isValid should return false for null values', () async {
-      bool validResult = await firePort.isValid!(null);
+      bool? validResult = await firePort.toFire.isValid(null);
       expect(validResult, isFalse);
     });
 
     test('shouldCancelAll should return false for non-cancel values', () async {
-      bool cancelResult = await firePort.shouldCancelAll!('not-cancel');
-      expect(cancelResult, isFalse);
+      bool? cancelResult = await firePort.toFire.allowsOperation('not-cancel');
+      expect(cancelResult, isTrue);
     });
 
     test('can use different data types', () async {
       final intPort = TestFirePort<int>(
-        receiveData: () async => 42,
-        onFetched: (_) async {},
+        toFire: 42.toFire(),
       );
 
       final boolPort = TestFirePort<bool>(
-        receiveData: () async => true,
-        onFetched: (_) async {},
+        toFire: true.toFire(),
       );
 
       final dateTimePort = TestFirePort<DateTime>(
-        receiveData: () async => DateTime(2023, 1, 1),
-        onFetched: (_) async {},
+        toFire: DateTime(2023, 1, 1).toFire(),
       );
 
-      expect(await intPort.receiveData(), equals(42));
-      expect(await boolPort.receiveData(), equals(true));
-      expect(await dateTimePort.receiveData(), equals(DateTime(2023, 1, 1)));
+      expect(await intPort.receiveToFire(), equals(42));
+      expect(await boolPort.receiveToFire(), equals(true));
+      expect(await dateTimePort.receiveToFire(), equals(DateTime(2023, 1, 1)));
     });
   });
 }

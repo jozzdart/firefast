@@ -3,8 +3,6 @@ import 'dart:typed_data';
 import 'package:test/test.dart';
 import 'package:firefast/firefast_core.dart';
 
-import 'list_fire_adapters_test.dart';
-
 void main() {
   group('BoolFireAdapter', () {
     final adapter = BoolFireAdapter();
@@ -450,23 +448,6 @@ void main() {
 
 class TestFireAdapterMap extends FireAdapterMap {
   static TestFireAdapterMap instance = TestFireAdapterMap();
-
-  @override
-  void registerAll() {
-    if (registered) return;
-    super.registerAll();
-    super.registerAdapters();
-    registerListAdapters();
-  }
-
-  void registerListAdapters() {
-    register<List<bool?>>(TestListFireAdapter<bool>());
-    register<List<int?>>(TestListFireAdapter<int>());
-    register<List<double?>>(TestListFireAdapter<double>());
-    register<List<String?>>(TestListFireAdapter<String>());
-    register<List<Uint8List?>>(TestListFireAdapter<Uint8List>());
-    register<List<DateTime?>>(TestListFireAdapter<DateTime>());
-  }
 }
 
 class CustomBoolFireAdapter extends BoolFireAdapter {}

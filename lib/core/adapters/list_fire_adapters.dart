@@ -1,8 +1,9 @@
 import 'package:firefast/firefast_core.dart';
 
-abstract class ListFireAdapter<T> extends FireAdapter<List<T?>> {
-  FireAdapter<T> get itemAdapter;
-  const ListFireAdapter();
+class ListFireAdapter<T> extends FireAdapter<List<T?>> {
+  FireAdapter<T> get itemAdapter => adapters.of<T>();
+  final FireAdapterMap adapters;
+  const ListFireAdapter(this.adapters);
 
   @override
   Future<List<T?>?> fromFire(value) async {

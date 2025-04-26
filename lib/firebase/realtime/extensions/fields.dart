@@ -1,14 +1,15 @@
+import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_realtime.dart';
 
-extension FireFieldListRealtimeExtensions on List<RealtimeField> {
+extension FireFieldListRealtimeExtensions on List<FireValue> {
   RealtimeNode realtime(RealtimeNodePath node) =>
-      RealtimeNode.fromFields(node: node, fields: this);
+      RealtimeNode(path: node, fireValues: this);
 
   RealtimeNode realtimeNewNode(String node) =>
       realtime(FirefastReal.node(node));
 }
 
-extension FireFieldRealtimeExtensions on RealtimeField {
+extension FireFieldRealtimeExtensions on FireValue {
   RealtimeNode realtime(RealtimeNodePath node) => [this].realtime(node);
 
   RealtimeNode realtimeNewNode(String node) =>

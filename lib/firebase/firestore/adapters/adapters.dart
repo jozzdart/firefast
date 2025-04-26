@@ -2,34 +2,53 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firefast/firefast_core.dart';
 
-part 'blob.dart';
-part 'document_reference.dart';
-part 'geo_point.dart';
-part 'timestamp.dart';
-part 'list.dart';
-
 class FirestoreAdapters extends FireAdapterMap {
   FirestoreAdapters();
   static FirestoreAdapters instance = FirestoreAdapters();
 
   @override
-  void registerAll() {
-    if (registered) return;
-    super.registerAll();
+  void registerAdapters() {
     register<Uint8List>(BlobFireAdapter());
     register<DateTime>(TimestampFireAdapter());
     register<GeoPoint>(GeoPointFireAdapter());
     register<DocumentReference>(DocumentReferenceFireAdapter());
     super.registerAdapters();
-    registerListAdapters();
   }
+}
 
-  void registerListAdapters() {
-    register<List<bool?>>(FirestoreListAdapters<bool>());
-    register<List<int?>>(FirestoreListAdapters<int>());
-    register<List<double?>>(FirestoreListAdapters<double>());
-    register<List<String?>>(FirestoreListAdapters<String>());
-    register<List<Uint8List?>>(FirestoreListAdapters<Uint8List>());
-    register<List<DateTime?>>(FirestoreListAdapters<DateTime>());
-  }
+class BlobFireAdapter extends FireAdapter<Uint8List> {
+  @override
+  Future<dynamic> toFire(Uint8List? value) async =>
+      (value == null) ? null : Blob(value);
+
+  @override
+  Future<Uint8List?> fromFire(dynamic value) async =>
+      (value == null) ? null : (value as Blob).bytes;
+}
+
+class TimestampFireAdapter extends FireAdapter<DateTime> {
+  @override
+  Future<dynamic> toFire(DateTime? value) async =>
+      (value == null) ? null : Timestamp.fromDate(value);
+
+  @override
+  Future<DateTime?> fromFire(dynamic value) async =>
+      (value == null) ? null : (value as Timestamp).toDate();
+}
+
+class GeoPointFireAdapter extends FireAdapter<GeoPoint> {
+  @override
+  Future<dynamic> toFire(GeoPoint? value) async => value;
+
+  @override
+  Future<GeoPoint?> fromFire(dynamic value) async => value as GeoPoint;
+}
+
+class DocumentReferenceFireAdapter extends FireAdapter<DocumentReference> {
+  @override
+  Future<dynamic> toFire(DocumentReference? value) async => value;
+
+  @override
+  Future<DocumentReference?> fromFire(dynamic value) async =>
+      value as DocumentReference;
 }

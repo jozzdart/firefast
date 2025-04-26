@@ -1,3 +1,37 @@
+## 0.1.0
+
+### Major update: **Unified `FireValue` model across all datasources**:
+
+- Replaced `FirestoreField<T>` and `RealtimeField<T>` with a single, universal `FireValue<T>`:
+  - Cleaner, scalable design
+  - Works seamlessly with Firestore, Realtime Database, and future datasources (Remote Config, Storage, etc.)
+  - Strong type safety with native Dart types (`int`, `bool`, `double`, `String`, `DateTime`, `Uint8List`, `Map<String, dynamic>`)
+  - Built-in flexible `toFire` and `fromFire` operations:
+    - Optional definition
+    - Supports simple `.toFire()` for basic values
+    - Supports full custom logic for complex data transformations
+- Automatic adapter resolution based on database and data type:
+  - Example: `Uint8List` is automatically stored as Firestore `Blob` or encoded for Realtime Database
+  - `DateTime` automatically mapped to Firestore `Timestamp`
+  - Maps automatically handled for Firestore/Realtime JSON structures
+- Enhanced field behavior:
+  - Native `.write()`, `.read()`, `.overwrite()`, `.delete()` operations without needing manual path or data management
+  - No runtime string keys or casting needed — everything defined once and type-safe
+- Introduced **Operation Guards**:
+- Optional conditions to block or allow read, write, delete operations dynamically
+- Example use-cases: rate limiting, permission checks, feature flags
+- Introduced **Value Guards**:
+- Field-level dynamic blocking logic based on current app state or external conditions
+- Allow fine-grained control for reading or writing specific fields
+- Clean and predictable API philosophy:
+- All operations (`read`, `write`, `delete`) are **void** by design:
+  - Data handling logic is defined once at field creation
+  - No runtime fetching or ad-hoc serialization logic
+  - Strict separation of concerns between field definition and operations
+- Seamless upgrade path:
+- Minimal migration from older `FirestoreField` / `RealtimeField` required
+- Just redefine using `FireValue` and retain same structure and behavior
+
 ## 0.0.21
 
 - Added testing framework for `firefast_realtime`:
