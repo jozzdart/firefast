@@ -1,3 +1,10 @@
+## 0.1.1
+
+- Added new operation guard implementations:
+  - `OperationLimiterBase` - Base interface for limit-based guards with `isLimited()` and `update()` methods
+  - `RateLimiterGuard` - Implementation using `PrfRateLimiter` for rate-limited operations
+  - `CooldownGuard` - Implementation using `PrfCooldown` for cooldown-based operation limiting
+
 ## 0.1.0
 
 ### Major update: **Unified `FireValue` model across all datasources**:
