@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Updated `prf` dependency to version 2.2.4 from 2.1.3
+
 ## 0.1.1
 
 - Added new operation guard implementations:
