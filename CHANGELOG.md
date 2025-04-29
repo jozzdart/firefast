@@ -1,3 +1,14 @@
+## 0.1.3
+
+- Changed operation function return types for better error handling:
+  - All operations (write, overwrite, delete) now return `String?`:
+    - Returns error message as String if operation fails
+    - Returns null if operation succeeds
+  - Read operations now return `OperationOutputReader?`:
+    - Returns null if read fails or data doesn't exist
+    - Returns `OperationOutputReader` with data if successful
+  - Previously all operations were void, making error handling more difficult
+
 ## 0.1.2
 
 - Updated `prf` dependency to version 2.2.4 from 2.1.3

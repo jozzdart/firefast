@@ -14,7 +14,7 @@ abstract class WriteOnPath<D> {
   ///
   /// Returns a [Future] that completes when the write operation is finished.
   /// If the write operation fails, the future will complete with an error.
-  Future<void> write(String path, D data);
+  Future<String?> write(String path, D data);
 }
 
 /// Defines a path-based read operation interface.
@@ -51,7 +51,7 @@ abstract class OverwriteOnPath<D> {
   ///
   /// Returns a [Future] that completes when the overwrite operation is finished.
   /// If the overwrite operation fails, the future will complete with an error.
-  Future<void> overwrite(String path, D data);
+  Future<String?> overwrite(String path, D data);
 }
 
 /// Defines a path-based delete operation interface.
@@ -66,5 +66,5 @@ abstract class DeleteOnPath {
   ///
   /// Returns a [Future] that completes when the delete operation is finished.
   /// If the delete operation fails, the future will complete with an error.
-  Future<void> delete(String path);
+  Future<String?> delete(String path);
 }

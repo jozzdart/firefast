@@ -1,6 +1,6 @@
 import 'package:firefast/firefast_core.dart';
 
-abstract class FireGuardedOperator extends FireValuesContainer {
+abstract class FireGuardedOperator<T> extends FireValuesContainer {
   final List<OperationGuard> guards;
 
   const FireGuardedOperator({
@@ -15,10 +15,13 @@ abstract class FireGuardedOperator extends FireValuesContainer {
     return true;
   }
 
-  Future<void> tryPerform() async {
+  Future<T?> tryPerform() async {
     final canPerformAction = await canPerform();
-    if (canPerformAction) await perform();
+    if (canPerformAction) {
+      return await perform();
+    }
+    return null;
   }
 
-  Future<void> perform();
+  Future<T?> perform();
 }

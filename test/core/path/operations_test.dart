@@ -6,11 +6,11 @@ import 'package:test/test.dart';
 class MockWriteOnPath extends Mock
     implements WriteOnPath<Map<String, dynamic>> {
   @override
-  Future<void> write(String path, Map<String, dynamic> data) async {
+  Future<String?> write(String path, Map<String, dynamic> data) async {
     return super.noSuchMethod(
       Invocation.method(#write, [path, data]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value(),
+      returnValue: Future<String?>.value(),
+      returnValueForMissingStub: Future<String?>.value(),
     );
   }
 }
@@ -29,22 +29,22 @@ class MockReadOnPath extends Mock implements ReadOnPath<Map<String, dynamic>> {
 class MockOverwriteOnPath extends Mock
     implements OverwriteOnPath<Map<String, dynamic>> {
   @override
-  Future<void> overwrite(String path, Map<String, dynamic> data) async {
+  Future<String?> overwrite(String path, Map<String, dynamic> data) async {
     return super.noSuchMethod(
       Invocation.method(#overwrite, [path, data]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value(),
+      returnValue: Future<String?>.value(),
+      returnValueForMissingStub: Future<String?>.value(),
     );
   }
 }
 
 class MockDeleteOnPath extends Mock implements DeleteOnPath {
   @override
-  Future<void> delete(String path) async {
+  Future<String?> delete(String path) async {
     return super.noSuchMethod(
       Invocation.method(#delete, [path]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value(),
+      returnValue: Future<String?>.value(),
+      returnValueForMissingStub: Future<String?>.value(),
     );
   }
 }

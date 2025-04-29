@@ -20,13 +20,23 @@ class FirefastReal extends PathBasedDataSource<FirebaseDatabase> {
   FirefastReal(super.datasource);
 
   @override
-  Future<void> write(String path, Map<String, dynamic> data) async {
-    await datasource.ref(path).update(data);
+  Future<String?> write(String path, Map<String, dynamic> data) async {
+    try {
+      await datasource.ref(path).update(data);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   @override
-  Future<void> overwrite(String path, Map<String, dynamic> data) async {
-    await datasource.ref(path).set(data);
+  Future<String?> overwrite(String path, Map<String, dynamic> data) async {
+    try {
+      await datasource.ref(path).set(data);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   @override
@@ -45,8 +55,13 @@ class FirefastReal extends PathBasedDataSource<FirebaseDatabase> {
   }
 
   @override
-  Future<void> delete(String path) async {
-    await datasource.ref(path).remove();
+  Future<String?> delete(String path) async {
+    try {
+      await datasource.ref(path).remove();
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   static RealtimeNodePath node(String node) =>
