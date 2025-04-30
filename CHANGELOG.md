@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Updated README
+
 ## 0.1.3
 
 - Changed operation function return types for better error handling:
