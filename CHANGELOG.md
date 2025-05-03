@@ -1,3 +1,9 @@
+## 0.1.5
+
+- Fixed iOS Firestore binary field bug:
+  - Improved `BlobFireAdapter` to handle both `Blob` and `List<dynamic>` types when reading data
+  - Prevented type casting error on iOS when decoding binary Firestore fields
+
 ## 0.1.4
 
 - Updated README
