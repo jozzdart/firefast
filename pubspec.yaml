@@ -1,6 +1,6 @@
 name: firefast
 description: "Firebase without the fuss. Define fields once, then just .write(), .read() Type-safe. Clean. Fast. Easy. Firestore, Realtime Database, Auth, Storage, Functions, Config and more!"
-version: 0.1.5
+version: 0.1.6
 homepage: https://github.com/jozzzzep/firefast
 repository: https://github.com/jozzzzep/firefast
 issue_tracker: https://github.com/jozzzzep/firefast/issues
@@ -21,7 +21,8 @@ dependencies:
   cloud_firestore: ^5.6.6
   collection: ^1.19.1
   firebase_database: ^11.3.5
-  prf: ^2.2.4
+  prf: ^2.4.1
+  limit: ^1.0.7
   firebase_remote_config: ^5.4.3
 
 dev_dependencies:
