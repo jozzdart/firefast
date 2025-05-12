@@ -33,3 +33,5 @@ dev_dependencies:
   build_runner: ^2.4.8
   fake_cloud_firestore: ^3.1.0
   firebase_database_mocks: ^0.7.1
+  shrink: ^1.5.9
+  shrink_flutter: ^0.0.4

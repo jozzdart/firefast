@@ -1,3 +1,12 @@
+## 0.1.6
+
+- **Fixed Firestore binary data writing bug due to incorrect generic inference:**
+
+  - Reworked all generic default parameters in `FirePortOperation`, `FromFire`, and `ToFire` to explicitly use `EmptyValueGuard<T>` instead of inferring `EmptyValueGuard<Null>`.
+  - This bug caused runtime type errors (`Uint8List is not a subtype of Null`) when writing binary (`Uint8List`) fields to Firestore.
+
+- **Added tests** to validate Firestore binary field writes and ensure proper generic handling.
+
 ## 0.1.5
 
 - Fixed iOS Firestore binary field bug:
