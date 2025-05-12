@@ -1,5 +1,4 @@
 import 'package:firefast/firefast_core.dart';
-import 'package:flutter/foundation.dart';
 
 class ToFireEmpty<T> extends ToFire<T> {
   @override
