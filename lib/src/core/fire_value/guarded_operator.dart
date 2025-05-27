@@ -1,5 +1,6 @@
-import 'operation_guard.dart';
-import '../fire_value/values_container.dart';
+import '../guards/operation_guard.dart';
+
+import 'values_container.dart';
 
 abstract class FireGuardedOperator<T> extends FireValuesContainer {
   final List<OperationGuard> guards;

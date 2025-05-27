@@ -1,6 +1,5 @@
 import '../adapters/adapters.dart';
-import '../guards/guards.dart';
-import '../fire_value/fire_value_object.dart';
+import '../fire_value/fire_value.dart';
 
 import 'data_source.dart';
 import 'path_segment.dart';

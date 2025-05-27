@@ -3,7 +3,6 @@ export 'cooldown_guard.dart';
 export 'empty_value_guard.dart';
 export 'fire_guards.dart';
 export 'fire_value_guard.dart';
-export 'guarded_operator.dart';
 export 'operation_guard.dart';
 export 'operation_guard_status.dart';
 export 'operation_limiter_base.dart';
