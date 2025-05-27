@@ -1,11 +1,4 @@
-import '../adapters/adapters.dart';
-import '../guards/guards.dart';
-import '../fire_value/fire_value.dart';
-
-import 'data_source.dart';
-import 'path_segment.dart';
-import 'operations_no_params.dart';
-import 'usecases.dart';
+import 'path.dart';
 
 abstract class OperatablePathObject<S extends PathBasedDataSource,
         P extends PathSegment> extends FireValuesContainer

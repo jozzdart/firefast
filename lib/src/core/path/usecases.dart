@@ -1,6 +1,4 @@
-import '../fire_value/output.dart';
-
-import 'path_operator.dart';
+import 'path.dart';
 
 class FireSetPathRead extends FireObjectPathOperator<OperationOutputReader> {
   FireSetPathRead({

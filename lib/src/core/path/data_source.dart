@@ -1,4 +1,4 @@
-import 'operations.dart';
+import 'path.dart';
 
 abstract class PathBasedDataSource<S>
     implements
