@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import 'models.dart';
 
 class RealtimeNodePath extends PathSegment {
   const RealtimeNodePath(super.node, {required super.parent});

@@ -1,5 +1,3 @@
-import 'package:firefast/firefast_core.dart';
-
 import 'models.dart';
 
 class RealtimeNode

@@ -1,6 +1,4 @@
-import 'package:firefast/firefast_core.dart';
-
-import '../realtime.dart';
+import 'extensions.dart';
 
 extension RealtimeNodePathExtensions on RealtimeNodePath {
   RealtimeNode withFields(List<FireValue> values) {

@@ -1,6 +1,4 @@
-import 'package:firefast/firefast_core.dart';
-
-import '../realtime.dart';
+import 'extensions.dart';
 
 extension PathSegmentRealtimeExtensions on PathSegment {
   RealtimeNodePath toRealtimeNode() => RealtimeNodePath.fromPath(this);

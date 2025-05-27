@@ -1,7 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 
-import 'package:firefast/firefast_core.dart';
-
 import 'models.dart';
 
 class FirefastReal extends PathBasedDataSource<FirebaseDatabase> {
