@@ -1,6 +1,5 @@
 import 'package:firefast/firefast_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:firefast/firefast_core.dart';
 import 'firestore_test_utils.dart';
 
 void main() {

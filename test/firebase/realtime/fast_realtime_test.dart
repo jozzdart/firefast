@@ -1,4 +1,3 @@
-import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_realtime.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'realtime_test_utils.dart';

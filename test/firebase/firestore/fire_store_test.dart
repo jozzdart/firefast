@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shrink_flutter/shrink_flutter.dart';
