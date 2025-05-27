@@ -1,3 +1,9 @@
+## 0.1.7
+
+- Moved internal files to `lib/src/` to improve encapsulation and API clarity
+- Restructured all internal dependecies to be more modular and easier to understand
+- Updated README
+
 ## 0.1.6
 
 - **Fixed Firestore binary data writing bug due to incorrect generic inference:**

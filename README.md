@@ -3,8 +3,8 @@
 
 <h3 align="center"><i>Firebase without the fuss.</i></h3>
 <p align="center">
-        <img src="https://img.shields.io/codefactor/grade/github/jozzzzep/firefast/main?style=flat-square">
-        <img src="https://img.shields.io/github/license/jozzzzep/firefast?style=flat-square">
+        <img src="https://img.shields.io/codefactor/grade/github/jozzdart/firefast/main?style=flat-square">
+        <img src="https://img.shields.io/github/license/jozzdart/firefast?style=flat-square">
         <img src="https://img.shields.io/pub/points/firefast?style=flat-square">
         <img src="https://img.shields.io/pub/v/firefast?style=flat-square">
 </p>
