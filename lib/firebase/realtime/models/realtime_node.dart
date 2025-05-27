@@ -1,5 +1,6 @@
 import 'package:firefast/firefast_core.dart';
-import 'package:firefast/firefast_realtime.dart';
+
+import 'models.dart';
 
 class RealtimeNode
     extends OperatablePathObject<FirefastReal, RealtimeNodePath> {
