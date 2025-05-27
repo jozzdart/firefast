@@ -1,4 +1,6 @@
-import 'package:firefast/firefast_core.dart';
+import '../fire_value/output.dart';
+
+import 'path_operator.dart';
 
 class FireSetPathRead extends FireObjectPathOperator<OperationOutputReader> {
   FireSetPathRead({

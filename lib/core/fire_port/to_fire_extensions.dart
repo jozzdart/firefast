@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:firefast/firefast_core.dart';
+import '../guards/guards.dart';
+import 'fire_port.dart';
 
 // notNull
 extension StringOperationExtensions on String {

@@ -1,4 +1,7 @@
-import 'package:firefast/firefast_core.dart';
+import '../guards/guards.dart';
+
+import 'from_fire.dart';
+import 'typedefs.dart';
 
 extension FromFireDelegateExtensions<T> on FromFireDelegate<T> {
   FromFire<T> fromFire({

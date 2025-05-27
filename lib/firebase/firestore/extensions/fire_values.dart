@@ -1,4 +1,4 @@
-import 'package:firefast/core/fire_value/fire_value.dart';
+import 'package:firefast/core/fire_value/fire_value_object.dart';
 import 'package:firefast/firefast_firestore.dart';
 
 extension FireFieldExtension<T> on FireValue {

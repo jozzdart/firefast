@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import '../guards/guards.dart';
 
 class MapEntryToFire {
   final OperationGuardStatus status;

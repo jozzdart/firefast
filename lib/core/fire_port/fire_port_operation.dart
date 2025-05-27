@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import '../guards/guards.dart';
 
 abstract class FirePortOperation<T> {
   final BaseValueGuard<T> validationGuard;

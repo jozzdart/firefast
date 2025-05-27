@@ -1,6 +1,7 @@
-import 'package:firefast/core/guards/operation_limiter_base.dart';
-import 'package:firefast/firefast_core.dart';
 import 'package:limit/limit.dart';
+
+import 'operation_guard.dart';
+import 'operation_limiter_base.dart';
 
 class RateLimiterGuard extends OperationGuard implements OperationLimiterBase {
   final RateLimiter limiter;

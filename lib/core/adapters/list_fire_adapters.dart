@@ -1,4 +1,5 @@
-import 'package:firefast/firefast_core.dart';
+import 'fire_adapters.dart';
+import 'fire_adapter_map.dart';
 
 class ListFireAdapter<T> extends FireAdapter<List<T?>> {
   FireAdapter<T> get itemAdapter => adapters.of<T>();

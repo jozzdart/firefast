@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import 'operations.dart';
 
 abstract class PathBasedDataSource<S>
     implements

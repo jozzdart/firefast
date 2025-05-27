@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import 'base_value_guard.dart';
 
 class EmptyValueGuard<T> extends BaseValueGuard<T> {
   const EmptyValueGuard();

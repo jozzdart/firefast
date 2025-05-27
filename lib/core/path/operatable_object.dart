@@ -1,4 +1,11 @@
-import 'package:firefast/firefast_core.dart';
+import '../adapters/adapters.dart';
+import '../guards/guards.dart';
+import '../fire_value/fire_value.dart';
+
+import 'data_source.dart';
+import 'path_segment.dart';
+import 'operations_no_params.dart';
+import 'usecases.dart';
 
 abstract class OperatablePathObject<S extends PathBasedDataSource,
         P extends PathSegment> extends FireValuesContainer

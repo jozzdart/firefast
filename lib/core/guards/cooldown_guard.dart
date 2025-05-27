@@ -1,6 +1,7 @@
-import 'package:firefast/core/guards/operation_limiter_base.dart';
-import 'package:firefast/firefast_core.dart';
 import 'package:limit/limit.dart';
+
+import 'operation_limiter_base.dart';
+import 'operation_guard.dart';
 
 class CooldownGuard extends OperationGuard implements OperationLimiterBase {
   final Cooldown cooldown;

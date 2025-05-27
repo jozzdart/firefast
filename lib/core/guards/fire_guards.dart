@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import 'operation_guard.dart';
 
 class FireGuards {
   final List<OperationGuard> read;

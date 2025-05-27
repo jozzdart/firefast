@@ -1,4 +1,8 @@
-import 'package:firefast/firefast_core.dart';
+import '../adapters/fire_adapters.dart';
+import '../guards/guards.dart';
+
+import 'fire_port_operation.dart';
+import 'typedefs.dart';
 
 class FromFireEmpty<T> extends FromFire<T> {
   @override

@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import 'fire_value_object.dart';
 
 class OperationOutputReader {
   final Map<String, dynamic> fields;

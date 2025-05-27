@@ -1,4 +1,4 @@
-import 'package:firefast/firefast_core.dart';
+import 'base_value_guard.dart';
 
 typedef IsValueValid<T> = Future<bool> Function(T?);
 typedef IsValueValidSync<T> = bool Function(T?);

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:firefast/firefast_core.dart';
+import 'fire_adapters.dart';
+import 'list_fire_adapters.dart';
 
 class FireAdapterMap {
   final Map<Type, FireAdapter<dynamic>> _registry = {};
