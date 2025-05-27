@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firefast/firefast_core.dart';
 
-import '../firestore.dart';
+import 'models.dart';
 
 /// A service class that provides simplified access to Firestore operations.
 ///

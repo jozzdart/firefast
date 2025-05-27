@@ -1,6 +1,4 @@
-import 'package:firefast/firefast_core.dart';
-
-import '../firestore.dart';
+import 'extensions.dart';
 
 extension CollectionPathExtensions on FirestoreCollectionPath {
   FirestoreDocumentPath doc(String documentId) =>

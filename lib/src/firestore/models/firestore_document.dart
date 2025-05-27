@@ -1,6 +1,4 @@
-import 'package:firefast/firefast_core.dart';
-
-import '../firestore.dart';
+import 'models.dart';
 
 /// Represents a document within a Firestore collection.
 ///

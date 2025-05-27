@@ -1,6 +1,4 @@
-import 'package:firefast/firefast_core.dart';
-
-import '../firestore.dart';
+import 'extensions.dart';
 
 extension FireFieldExtension<T> on FireValue {
   FirestoreDocument firestore(FirestoreDocumentPath document) =>
