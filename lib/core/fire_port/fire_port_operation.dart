@@ -4,10 +4,11 @@ abstract class FirePortOperation<T> {
   final BaseValueGuard<T> validationGuard;
   final BaseValueGuard<T> allowOperationGuard;
 
-  const FirePortOperation({
-    this.validationGuard = const EmptyValueGuard(),
-    this.allowOperationGuard = const EmptyValueGuard(),
-  });
+  FirePortOperation({
+    BaseValueGuard<T>? validationGuard,
+    BaseValueGuard<T>? allowOperationGuard,
+  })  : validationGuard = validationGuard ?? EmptyValueGuard<T>(),
+        allowOperationGuard = allowOperationGuard ?? EmptyValueGuard<T>();
 
   bool get hasValidation => validationGuard.hasValidation;
   bool get mayBlockOperation => allowOperationGuard.hasValidation;

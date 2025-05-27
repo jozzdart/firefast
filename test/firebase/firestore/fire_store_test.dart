@@ -1,9 +1,18 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:firefast/firefast_core.dart';
 import 'package:firefast/firefast_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shrink_flutter/shrink_flutter.dart';
+import '../../utils/big_text.dart';
 import 'firestore_test_utils.dart';
+
+Future<Uint8List?> getTextBytes() async {
+  final Uint8List toBytes = Uint8List.fromList(utf8.encode(bigText));
+  final afterShrink = await ShrinkAsync.bytes(toBytes);
+  return afterShrink as Uint8List?;
+}
 
 void main() {
   group('FastFirestore.instance tests', () {
@@ -42,6 +51,27 @@ void main() {
         final adapterBlob = BlobFireAdapter().runtimeType;
 
         expect(valueOnFire, equals(fieldValue));
+        expect(adapterOnField, equals(adapterBlob));
+      });
+
+      // Basic CRUD operations
+      test('testing bytes field', () async {
+        final bytes = await getTextBytes();
+        final value = FireValue<Uint8List>(
+          'bytes',
+          toFire: ToFire(getTextBytes),
+        );
+
+        doc = value.firestoreNewDoc('users', 'user123');
+        await doc.write();
+
+        final fromFire = await FirefastStore.instance.read(doc.path.path);
+        final outputs = await doc.fromMap(fromFire, FirestoreAdapters.instance);
+        final valueOnFire = outputs?.get(value);
+        final adapterOnField = doc.adapters.of<Uint8List>().runtimeType;
+        final adapterBlob = BlobFireAdapter().runtimeType;
+
+        expect(valueOnFire, equals(bytes));
         expect(adapterOnField, equals(adapterBlob));
       });
 

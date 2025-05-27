@@ -1,3 +1,44 @@
+## 0.1.6
+
+- **Fixed Firestore binary data writing bug due to incorrect generic inference:**
+
+  - Reworked all generic default parameters in `FirePortOperation`, `FromFire`, and `ToFire` to explicitly use `EmptyValueGuard<T>` instead of inferring `EmptyValueGuard<Null>`.
+  - This bug caused runtime type errors (`Uint8List is not a subtype of Null`) when writing binary (`Uint8List`) fields to Firestore.
+
+- **Added tests** to validate Firestore binary field writes and ensure proper generic handling.
+
+## 0.1.5
+
+- Fixed iOS Firestore binary field bug:
+  - Improved `BlobFireAdapter` to handle both `Blob` and `List<dynamic>` types when reading data
+  - Prevented type casting error on iOS when decoding binary Firestore fields
+
+## 0.1.4
+
+- Updated README
+
+## 0.1.3
+
+- Changed operation function return types for better error handling:
+  - All operations (write, overwrite, delete) now return `String?`:
+    - Returns error message as String if operation fails
+    - Returns null if operation succeeds
+  - Read operations now return `OperationOutputReader?`:
+    - Returns null if read fails or data doesn't exist
+    - Returns `OperationOutputReader` with data if successful
+  - Previously all operations were void, making error handling more difficult
+
+## 0.1.2
+
+- Updated `prf` dependency to version 2.2.4 from 2.1.3
+
+## 0.1.1
+
+- Added new operation guard implementations:
+  - `OperationLimiterBase` - Base interface for limit-based guards with `isLimited()` and `update()` methods
+  - `RateLimiterGuard` - Implementation using `PrfRateLimiter` for rate-limited operations
+  - `CooldownGuard` - Implementation using `PrfCooldown` for cooldown-based operation limiting
+
 ## 0.1.0
 
 ### Major update: **Unified `FireValue` model across all datasources**:

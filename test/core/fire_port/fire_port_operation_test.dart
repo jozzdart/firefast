@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:firefast/firefast_core.dart';
 
 class TestFirePortOperation<T> extends FirePortOperation<T> {
-  const TestFirePortOperation({
+  TestFirePortOperation({
     super.validationGuard,
     super.allowOperationGuard,
   });

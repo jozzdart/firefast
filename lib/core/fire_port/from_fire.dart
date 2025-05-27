@@ -4,14 +4,14 @@ class FromFireEmpty<T> extends FromFire<T> {
   @override
   FromFireDelegate<T> get onInput => (e) async => {};
 
-  const FromFireEmpty() : super(_empty);
+  FromFireEmpty() : super(_empty);
   static Future<void> _empty<T>(T? value) async {}
 }
 
 class FromFire<T> extends FirePortOperation<T> {
   final FromFireDelegate<T> onInput;
 
-  const FromFire(
+  FromFire(
     this.onInput, {
     super.validationGuard,
     super.allowOperationGuard,
@@ -19,12 +19,12 @@ class FromFire<T> extends FirePortOperation<T> {
 
   FromFire.sync(
     FromFireSyncDelegate<T> function, {
-    BaseValueGuard<T> validationGuard = const EmptyValueGuard(),
-    BaseValueGuard<T> allowOperationGuard = const EmptyValueGuard(),
+    BaseValueGuard<T>? validationGuard,
+    BaseValueGuard<T>? allowOperationGuard,
   }) : this(
           (v) async => function(v),
-          validationGuard: validationGuard,
-          allowOperationGuard: allowOperationGuard,
+          validationGuard: validationGuard ?? EmptyValueGuard<T>(),
+          allowOperationGuard: allowOperationGuard ?? EmptyValueGuard<T>(),
         );
 
   Future<T?> fromMapEntry(dynamic rawValue, FireAdapter<T> adapter) async {

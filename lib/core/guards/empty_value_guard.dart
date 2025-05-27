@@ -7,5 +7,5 @@ class EmptyValueGuard<T> extends BaseValueGuard<T> {
   bool get hasValidation => false;
 
   @override
-  Future<bool> isValueValid(value) async => true;
+  Future<bool> isValueValid(T? value) async => true;
 }

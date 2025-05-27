@@ -1,3 +1,4 @@
+<a id="back-to-top"></a>
 ![img](https://i.imgur.com/uo7fSJm.png)
 
 <h3 align="center"><i>Firebase without the fuss.</i></h3>
@@ -210,3 +211,5 @@ dependencies:
 
 Pull requests, feedback, and ideas are welcome!  
 Help shape a better Firebase developer experience.
+
+[⤴️ Back](#back-to-top) -> Table of Contents

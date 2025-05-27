@@ -1,6 +1,6 @@
 import 'package:firefast/firefast_core.dart';
 
-abstract class FireObjectPathOperator extends FireGuardedOperator {
+abstract class FireObjectPathOperator<T> extends FireGuardedOperator<T> {
   final OperatablePathObject fireOperatable;
   @override
   List<FireValue> get fireValues => fireOperatable.fireValues;

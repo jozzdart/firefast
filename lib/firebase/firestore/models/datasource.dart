@@ -48,8 +48,13 @@ class FirefastStore extends PathBasedDataSource<FirebaseFirestore> {
   /// * [path]: The path to the document.
   /// * [data]: The data to write to the document.
   @override
-  Future<void> write(String path, Map<String, dynamic> data) async {
-    await datasource.doc(path).set(data, SetOptions(merge: true));
+  Future<String?> write(String path, Map<String, dynamic> data) async {
+    try {
+      await datasource.doc(path).set(data, SetOptions(merge: true));
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   /// Overwrites a Firestore document with the provided data.
@@ -60,8 +65,13 @@ class FirefastStore extends PathBasedDataSource<FirebaseFirestore> {
   /// * [path]: The path to the document.
   /// * [data]: The data to replace the document with.
   @override
-  Future<void> overwrite(String path, Map<String, dynamic> data) async {
-    await datasource.doc(path).set(data, SetOptions(merge: false));
+  Future<String?> overwrite(String path, Map<String, dynamic> data) async {
+    try {
+      await datasource.doc(path).set(data, SetOptions(merge: false));
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   /// Reads a Firestore document at the specified path.
@@ -80,8 +90,13 @@ class FirefastStore extends PathBasedDataSource<FirebaseFirestore> {
   ///
   /// * [path]: The path to the document to delete.
   @override
-  Future<void> delete(String path) async {
-    await datasource.doc(path).delete();
+  Future<String?> delete(String path) async {
+    try {
+      await datasource.doc(path).delete();
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   /// Creates a [FirestoreCollectionPath] for the specified collection.

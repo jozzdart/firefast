@@ -4,7 +4,7 @@ class ToFireEmpty<T> extends ToFire<T> {
   @override
   ToFireDelegate<T> get receiveData => () async => null as T;
 
-  const ToFireEmpty() : super(_empty);
+  ToFireEmpty() : super(_empty);
   static Future<T?> _empty<T>() async {
     return null as T;
   }
@@ -13,7 +13,7 @@ class ToFireEmpty<T> extends ToFire<T> {
 class ToFire<T> extends FirePortOperation<T> {
   final ToFireDelegate<T> receiveData;
 
-  const ToFire(
+  ToFire(
     this.receiveData, {
     super.validationGuard,
     super.allowOperationGuard,
@@ -21,12 +21,12 @@ class ToFire<T> extends FirePortOperation<T> {
 
   ToFire.sync(
     T? value, {
-    BaseValueGuard<T> validationGuard = const EmptyValueGuard(),
-    BaseValueGuard<T> allowOperationGuard = const EmptyValueGuard(),
+    BaseValueGuard<T>? validationGuard,
+    BaseValueGuard<T>? allowOperationGuard,
   }) : this(
           () async => value,
-          validationGuard: validationGuard,
-          allowOperationGuard: allowOperationGuard,
+          validationGuard: validationGuard ?? EmptyValueGuard<T>(),
+          allowOperationGuard: allowOperationGuard ?? EmptyValueGuard<T>(),
         );
 
   ToFire.empty() : this(() async => null);

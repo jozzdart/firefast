@@ -18,18 +18,18 @@ abstract class OperatablePathObject<S extends PathBasedDataSource,
   List<FireValue> get fields => fireValues;
 
   @override
-  Future<void> write() async =>
+  Future<String?> write() async =>
       await FireSetPathWrite(fireOperatable: this).tryPerform();
 
   @override
-  Future<void> overwrite() async =>
+  Future<String?> overwrite() async =>
       await FireSetPathOverwrite(fireOperatable: this).tryPerform();
 
   @override
-  Future<void> read() async =>
+  Future<OperationOutputReader?> read() async =>
       await FireSetPathRead(fireOperatable: this).tryPerform();
 
   @override
-  Future<void> delete() async =>
+  Future<String?> delete() async =>
       await FireSetPathDelete(fireOperatable: this).tryPerform();
 }
