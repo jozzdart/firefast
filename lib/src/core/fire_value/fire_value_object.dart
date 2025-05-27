@@ -1,4 +1,4 @@
-import '../core.dart';
+import 'fire_value.dart';
 
 class FireValue<T> extends FirePort<T> {
   final String name;

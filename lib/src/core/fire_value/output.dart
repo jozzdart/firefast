@@ -1,4 +1,4 @@
-import 'fire_value_object.dart';
+import 'fire_value.dart';
 
 class OperationOutputReader {
   final Map<String, dynamic> fields;

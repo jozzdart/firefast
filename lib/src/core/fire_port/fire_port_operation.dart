@@ -1,4 +1,4 @@
-import '../guards/guards.dart';
+import 'fire_port.dart';
 
 abstract class FirePortOperation<T> {
   final BaseValueGuard<T> validationGuard;

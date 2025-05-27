@@ -1,4 +1,4 @@
-import '../guards/guards.dart';
+import 'fire_port.dart';
 
 class MapEntryToFire {
   final OperationGuardStatus status;

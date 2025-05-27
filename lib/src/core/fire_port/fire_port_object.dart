@@ -1,8 +1,4 @@
-import '../adapters/fire_adapters.dart';
-
-import 'to_fire.dart';
-import 'from_fire.dart';
-import 'map_entry.dart';
+import 'fire_port.dart';
 
 abstract class FirePort<T> {
   final ToFire<T>? _toFire;

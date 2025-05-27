@@ -1,8 +1,4 @@
-import '../adapters/fire_adapter_map.dart';
-import '../guards/guards.dart';
-
-import 'fire_value_object.dart';
-import 'output.dart';
+import 'fire_value.dart';
 
 abstract class FireValuesContainer {
   final List<FireValue> fireValues;

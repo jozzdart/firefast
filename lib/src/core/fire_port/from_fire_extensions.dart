@@ -1,7 +1,4 @@
-import '../guards/guards.dart';
-
-import 'from_fire.dart';
-import 'typedefs.dart';
+import 'fire_port.dart';
 
 extension FromFireDelegateExtensions<T> on FromFireDelegate<T> {
   FromFire<T> fromFire({
