@@ -1,5 +1,6 @@
 import 'package:firefast/firefast_core.dart';
-import 'package:firefast/firefast_firestore.dart';
+
+import '../firestore.dart';
 
 extension PathSegmentFirestoreExtensions on PathSegment {
   FirestoreDocumentPath toFirestoreDocument() =>
